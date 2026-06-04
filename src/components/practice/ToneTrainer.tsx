@@ -77,7 +77,7 @@ export default function ToneTrainer() {
 
   const playTone = (tone: number) => {
     const chars: Record<number, string> = { 1: "妈", 2: "麻", 3: "马", 4: "骂" };
-    speakChinese(chars[tone] || "妈", 0.7);
+    speakChinese(chars[tone] || "妈", 0.7).catch(() => {});
   };
 
   const playExercise = () => {

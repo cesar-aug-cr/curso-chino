@@ -25,7 +25,15 @@ export function speakChinese(text: string, rate: number = 0.8): Promise<void> {
     }
 
     utterance.onend = () => resolve();
-    utterance.onerror = (e) => reject(e);
+    utterance.onerror = (e) => {
+      // "interrupted"/"canceled" fire when speechSynthesis.cancel() stops a
+      // previous utterance — these are expected, not real failures.
+      if (e.error === "interrupted" || e.error === "canceled") {
+        resolve();
+        return;
+      }
+      reject(new Error(`Speech synthesis failed: ${e.error}`));
+    };
 
     window.speechSynthesis.speak(utterance);
   });
