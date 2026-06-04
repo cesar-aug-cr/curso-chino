@@ -24,9 +24,9 @@ export default function PinyinDisplay({
 
   const sizes = {
     sm: { hanzi: "text-xl", pinyin: "text-xs", meaning: "text-xs" },
-    md: { hanzi: "text-3xl", pinyin: "text-sm", meaning: "text-sm" },
-    lg: { hanzi: "text-5xl", pinyin: "text-base", meaning: "text-base" },
-    xl: { hanzi: "text-7xl", pinyin: "text-lg", meaning: "text-lg" },
+    md: { hanzi: "text-2xl sm:text-3xl", pinyin: "text-sm", meaning: "text-sm" },
+    lg: { hanzi: "text-4xl sm:text-5xl", pinyin: "text-base", meaning: "text-base" },
+    xl: { hanzi: "text-5xl sm:text-7xl", pinyin: "text-lg", meaning: "text-lg" },
   };
 
   const s = sizes[size];
@@ -37,7 +37,7 @@ export default function PinyinDisplay({
         {pinyin}
       </span>
       <div className="flex items-center gap-1.5">
-        <span className={cn("font-medium", s.hanzi)}>{hanzi}</span>
+        <span className={cn("font-medium break-words text-center", s.hanzi)}>{hanzi}</span>
         {showAudio && <TextToSpeech text={hanzi} size={size === "sm" ? "sm" : "md"} />}
       </div>
       {meaning && (

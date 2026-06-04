@@ -15,11 +15,28 @@ export default function StrokeOrder({
   className,
 }: StrokeOrderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const writerRef = useRef<any>(null);
   const [mode, setMode] = useState<"animate" | "quiz">("animate");
   const [quizResult, setQuizResult] = useState<string | null>(null);
   const [strokeCount, setStrokeCount] = useState<number>(0);
   const [loading, setLoading] = useState(true);
+  // Tamano efectivo del lienzo: nunca mayor que `size`, pero se reduce para
+  // caber en pantallas estrechas (movil) segun el ancho disponible del contenedor.
+  const [renderSize, setRenderSize] = useState(size);
+
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const update = () => {
+      const available = el.clientWidth;
+      if (available > 0) setRenderSize(Math.min(size, available));
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [size]);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -37,8 +54,8 @@ export default function StrokeOrder({
 
       try {
         const writer = Writer.create(containerRef.current, character, {
-          width: size,
-          height: size,
+          width: renderSize,
+          height: renderSize,
           padding: 10,
           showOutline: true,
           strokeAnimationSpeed: 1,
@@ -71,7 +88,7 @@ export default function StrokeOrder({
     return () => {
       writerRef.current = null;
     };
-  }, [character, size, mode]);
+  }, [character, renderSize, mode]);
 
   const handleAnimate = () => {
     if (writerRef.current) {
@@ -105,14 +122,17 @@ export default function StrokeOrder({
 
   return (
     <div className={cn("flex flex-col items-center gap-3", className)}>
-      <div
-        ref={containerRef}
-        className={cn(
-          "border-2 border-gray-200 rounded-xl bg-white relative",
-          loading && "animate-pulse"
-        )}
-        style={{ width: size, height: size }}
-      />
+      {/* Wrapper de ancho completo (hasta `size`) para medir el espacio disponible */}
+      <div ref={wrapperRef} className="w-full flex justify-center" style={{ maxWidth: size }}>
+        <div
+          ref={containerRef}
+          className={cn(
+            "border-2 border-gray-200 rounded-xl bg-white relative",
+            loading && "animate-pulse"
+          )}
+          style={{ width: renderSize, height: renderSize }}
+        />
+      </div>
 
       {strokeCount > 0 && (
         <p className="text-xs text-gray-500">{strokeCount} trazos</p>

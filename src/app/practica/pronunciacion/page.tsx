@@ -87,11 +87,11 @@ export default function PronunciacionPage() {
       </div>
 
       {/* Current word */}
-      <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-gray-700 text-center space-y-4">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100 dark:border-gray-700 text-center space-y-4">
         <p className="text-sm text-gray-500">Escucha y repite:</p>
 
         <div className="space-y-1">
-          <p className="text-6xl font-medium" style={{ fontFamily: "'Noto Sans SC', sans-serif" }}>
+          <p className="text-5xl sm:text-6xl font-medium break-words" style={{ fontFamily: "'Noto Sans SC', sans-serif" }}>
             {currentWord.hanzi}
           </p>
           <p className={cn("text-xl font-medium", getToneColor(currentWord.tones[0] || 5))}>

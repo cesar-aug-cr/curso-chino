@@ -48,7 +48,7 @@ export default function CharacterCard({
       <div className="p-5 flex flex-col items-center text-center">
         {/* Character */}
         <div className="relative">
-          <span className="text-6xl font-medium">{word.hanzi}</span>
+          <span className="text-5xl sm:text-6xl font-medium break-words">{word.hanzi}</span>
           <div className="absolute -right-10 top-0">
             <TextToSpeech text={word.hanzi} size="md" />
           </div>

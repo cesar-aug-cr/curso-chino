@@ -30,7 +30,7 @@ export default function FlashCard({
       case "hanzi-to-spanish":
         return (
           <div className="flex flex-col items-center gap-3">
-            <span className="text-7xl font-medium">{hanzi}</span>
+            <span className="text-5xl sm:text-7xl font-medium break-words text-center">{hanzi}</span>
             <TextToSpeech text={hanzi} size="lg" />
             <p className="text-sm text-gray-400 mt-4">Toca para ver la respuesta</p>
           </div>
@@ -55,7 +55,7 @@ export default function FlashCard({
 
   const back = () => (
     <div className="flex flex-col items-center gap-2">
-      <span className="text-6xl font-medium">{hanzi}</span>
+      <span className="text-5xl sm:text-6xl font-medium break-words text-center">{hanzi}</span>
       <TextToSpeech text={hanzi} size="md" />
       <p className={cn("text-xl font-medium", getToneColor(tones[0] || 5))}>
         {pinyin}
@@ -94,7 +94,7 @@ export default function FlashCard({
         transition={{ duration: 0.3 }}
         onClick={() => !flipped && setFlipped(true)}
         className={cn(
-          "w-full max-w-sm mx-auto min-h-[320px] flex items-center justify-center p-8",
+          "w-full max-w-sm mx-auto min-h-[320px] flex items-center justify-center p-6 sm:p-8",
           "bg-white dark:bg-gray-800 rounded-3xl shadow-lg border border-gray-100 dark:border-gray-700",
           !flipped && "cursor-pointer hover:shadow-xl transition-shadow"
         )}
